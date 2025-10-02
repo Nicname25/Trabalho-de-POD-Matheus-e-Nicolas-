@@ -1,2 +1,1 @@
-from Straming import Music
-
+from Streaming.Streaming import *
