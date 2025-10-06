@@ -6,25 +6,25 @@ from datetime import datetime
 
 class Analises:
     @staticmethod
-    def top_musicas_reproduzidas(musicas: list["Musica"], top_n: int) -> list["Musica"]:
+    def top_musicas_reproduzidas(musicas: list[Musica], top_n: int) -> list[Musica]:
         if not musicas:
             return []
         return sorted(musicas, key=lambda m: m.reproducoes, reverse=True)[:top_n]
 
     @staticmethod
-    def playlist_mais_popular(playlists: list["Playlist"]) -> "Playlist" | None:
+    def playlist_mais_popular(playlists: list[Playlist]) -> Playlist | None:
         if not playlists:
             return None
         return max(playlists, key=lambda p: p.reproducoes)
 
     @staticmethod
-    def usuario_mais_ativo(usuarios: list["Usuario"]) -> "Usuario" | None:
+    def usuario_mais_ativo(usuarios: list[Usuario]) -> Usuario | None:
         if not usuarios:
             return None
         return max(usuarios, key=lambda u: len(u.historico))
 
     @staticmethod
-    def media_avaliacoes(musicas: list["Musica"]) -> dict[str, float]:
+    def media_avaliacoes(musicas: list[Musica]) -> dict[str, float]:
         medias = {}
         for musica in musicas:
             if musica.avaliacoes:
@@ -34,14 +34,14 @@ class Analises:
         return medias
 
     @staticmethod
-    def total_reproducoes(usuarios: list["Usuario"]) -> int:
+    def total_reproducoes(usuarios: list[Usuario]) -> int:
         return sum(len(u.historico) for u in usuarios)
 
 
 
     # Novo método para gerar relatório em arquivo
     @staticmethod
-    def gerar_relatorio(musicas: list["Musica"], playlists: list["Playlist"], usuarios: list["Usuario"], top_n: int = 3):
+    def gerar_relatorio(musicas: list[Musica], playlists: list[Playlist], usuarios: list[Usuario], top_n: int = 3):
         # Garante que a pasta existe
         os.makedirs("relatorios", exist_ok=True)
 

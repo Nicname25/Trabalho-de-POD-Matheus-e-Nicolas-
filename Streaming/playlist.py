@@ -1,8 +1,8 @@
 from Streaming.arquivo_de_midia import ArquivoDeMidia
-from Streaming.usuario import Usuario
+
 
 class Playlist:
-    def __init__(self, nome: str, usuario: "Usuario"):
+    def __init__(self, nome: str, usuario):
         self.nome = nome
         self.usuario = usuario
         self.itens: list[ArquivoDeMidia] = []

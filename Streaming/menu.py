@@ -2,14 +2,14 @@ from Streaming.usuario import Usuario
 from Streaming.playlist import Playlist
 from Streaming.musica import Musica
 from Streaming.podcast import Podcast
-from Streaming.menu2 import Menu2
+from Streaming.menu_usuario import MenuUsuario
 
 from pathlib import Path
 import os
 
-
 class Menu:
     def __init__(self):
+        
         self.usuarios: list[Usuario] = []
         self.playlists: list[Playlist] = []
         self.musicas: list[Musica] = []
@@ -24,7 +24,7 @@ class Menu:
 
     def carregar_config(self):
         """Carrega usuários, músicas, podcasts e playlists do arquivo Markdown"""
-        caminho = Path("config/dados.md")
+        caminho = Path("./config/Exemplo_Entrada_1.md")
         if not caminho.exists():
             print("Arquivo config/dados.md não encontrado!")
             return
@@ -162,7 +162,7 @@ class Menu:
             if 0 <= escolha < len(self.usuarios):
                 usuario = self.usuarios[escolha]
                 print(f"\nBem-vindo, {usuario.nome}!")
-                Menu2(usuario, self.musicas, self.podcasts, self.playlists).menu_principal()
+                MenuUsuario(usuario, self.musicas, self.podcasts, self.playlists).menu_principal()
             else:
                 print("Usuário inválido!")
         except ValueError:
