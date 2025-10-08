@@ -62,7 +62,7 @@ class Menu:
                 conteudo = linhas[1:]
                 blocos = self._extrair_blocos(conteudo)
 
-                if "usuari" in titulo:
+                if "usu" in titulo:
                     for b in blocos:
                         self._process_usuario(b, arq)
                 elif "mús" in titulo or "mus" in titulo:
@@ -71,8 +71,8 @@ class Menu:
                 elif "podcast" in titulo:
                     for b in blocos:
                         self._process_podcast(b, arq)
-                elif "playlist" in titulo:
-                    for b in blocos:
+                elif "playlist" in titulo: 
+                    for b in blocos: 
                         self._process_playlist(b, arq)
 
         # agora preenche as playlists pendentes (itens)
@@ -109,11 +109,14 @@ class Menu:
     # ---------- PROCESSADORES ----------
     def _process_usuario(self, dados, arq):
         nome = str(dados.get("nome") or "").strip()
+        #print(nome)
         if not nome:
             self.log_erro(f"{arq}: Usuário sem nome -> {dados}")
             return
         if any(u.nome == nome for u in self.usuarios):
+            #print("JAbuti")
             return  # evita duplicata
+        #4print("Arara")
         self.usuarios.append(Usuario(nome))
 
     def _process_musica(self, dados, arq):
@@ -143,6 +146,7 @@ class Menu:
             self.log_erro(f"{arq}: erro ao processar podcast {dados} -> {e}")
 
     def _process_playlist(self, dados, arq):
+        
         nome = str(dados.get("nome") or "").strip()
         usuario_nome = str(dados.get("usuario") or "").strip()
         itens = dados.get("itens", [])
