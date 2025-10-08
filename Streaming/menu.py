@@ -221,7 +221,7 @@ class Menu:
             if 0 <= escolha < len(self.usuarios):
                 usuario = self.usuarios[escolha]
                 print(f"\nBem-vindo, {usuario.nome}!")
-                MenuUsuario(usuario, self.musicas, self.podcasts, self.playlists).menu_principal()
+                MenuUsuario(usuario, self.musicas, self.podcasts, self.playlists, self.usuarios).menu_principal()
             else:
                 print("Usuário inválido!")
         except ValueError:
