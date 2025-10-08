@@ -6,11 +6,12 @@ from Streaming.analises import Analises
 
 
 class MenuUsuario:
-    def __init__(self, usuario: Usuario, musicas: list[Musica], podcasts: list[Podcast], playlists: list[Playlist]):
+    def __init__(self, usuario: Usuario, musicas: list[Musica], podcasts: list[Podcast], playlists: list[Playlist], usuarios: list[Usuario]):
         self.usuario = usuario
         self.musicas = musicas
         self.podcasts = podcasts
         self.playlists = playlists
+        self.usuarios = usuarios
 
     def menu_principal(self):
         while True:
@@ -23,7 +24,8 @@ class MenuUsuario:
             print("6 - Criar nova playlist")
             print("7 - Concatenar playlists")
             print("8 - Gerar relatório")
-            print("9 - Sair")
+            print("9 - Ver histórico detalhado")
+            print("10 - Sair")
 
             opcao = input("Escolha uma opção: ")
 
@@ -42,9 +44,11 @@ class MenuUsuario:
             elif opcao == "7":
                 self.concatenar_playlists()
             elif opcao == "8":
-                Analises.gerar_relatorio(self.musicas, self.playlists, [self.usuario])
+                Analises.gerar_relatorio(self.musicas, self.playlists, self.usuarios)
             elif opcao == "9":
-                print("Saindo do menu do usuário...")
+                self.usuario.gerar_relatorio_pessoal()
+
+            elif opcao == "10":
                 break
             else:
                 print("Opção inválida!")
@@ -55,7 +59,7 @@ class MenuUsuario:
         nome = input("Digite o título da música: ")
         for m in self.musicas:
             if m.titulo == nome:
-                self.usuario.ouvir_midia(m)  # chama método da classe Usuario
+                self.usuario.ouvir_midia(m) 
                 return
         print("Música não encontrada!")
 
@@ -86,7 +90,7 @@ class MenuUsuario:
     def criar_playlist(self):
         nome = input("Digite o nome da nova playlist: ")
         try:
-            nova = self.usuario.criar_playlist(nome)  # chama método da classe Usuario
+            nova = self.usuario.criar_playlist(nome) 
             self.playlists.append(nova)
             print(f"Playlist '{nome}' criada com sucesso!")
         except ValueError as e:
@@ -101,8 +105,10 @@ class MenuUsuario:
         pl2 = next((pl for pl in self.playlists if pl.nome == p2), None)
 
         if pl1 and pl2:
-            nova = pl1 + pl2  # usa __add__ da Playlist
+            nova = pl1 + pl2 
             self.playlists.append(nova)
             print(f"Nova playlist criada: {nova.nome}")
         else:
             print("Uma das playlists não existe!")
+
+    
