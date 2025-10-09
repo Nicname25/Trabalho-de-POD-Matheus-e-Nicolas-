@@ -7,24 +7,36 @@ from datetime import datetime
 class Analises:
     @staticmethod
     def top_musicas_reproduzidas(musicas: list[Musica], top_n: int) -> list[Musica]:
+        """ 
+        Esse método retorna as 3 músicas mais reproduzidas.
+        """
         if not musicas:
             return []
         return sorted(musicas, key=lambda m: m.reproducoes, reverse=True)[:top_n]
 
     @staticmethod
     def playlist_mais_popular(playlists: list[Playlist]) -> Playlist | None:
+        """
+        Esse método retorna a playlist mais reproduzida
+        """
         if not playlists:
             return None
         return max(playlists, key=lambda p: p.reproducoes)
 
     @staticmethod
     def usuario_mais_ativo(usuarios: list[Usuario]) -> Usuario | None:
+        """
+        Esse método retorna o usuário que reproduziu mais minutos de músicas
+        """
         if not usuarios:
             return None
         return max(usuarios, key=lambda u: len(u.historico))
 
     @staticmethod
     def media_avaliacoes(musicas: list[Musica]) -> dict[str, float]:
+        """
+        Esse método retorna a média das avaliações da música
+        """
         medias = {}
         for musica in musicas:
             if musica.avaliacoes:
@@ -35,6 +47,9 @@ class Analises:
 
     @staticmethod
     def total_reproducoes(usuarios: list[Usuario]) -> int:
+        """
+        Esse método retorna o total de reproduções por certo usuário
+        """
         return sum(len(u.historico) for u in usuarios)
 
 
@@ -42,6 +57,15 @@ class Analises:
     # Novo método para gerar relatório em arquivo
     @staticmethod
     def gerar_relatorio(musicas: list[Musica], playlists: list[Playlist], usuarios: list[Usuario], top_n: int = 3):
+
+        """
+        Esse método gera o relatório de tudo que ocorreu na execução.
+        incluindo:
+        top músicas
+        usuário mais ativo
+        playlist mais popular
+        média de avaliações
+        """
         # Garante que a pasta existe
         os.makedirs("relatorios", exist_ok=True)
 
@@ -76,5 +100,6 @@ class Analises:
             # Total de reproduções
             total = Analises.total_reproducoes(usuarios)
             arq.write(f"Total de reproduções no sistema: {total}\n")
+
 
         print(f"Relatório gerado em: {caminho}")
