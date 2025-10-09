@@ -24,7 +24,13 @@ class Usuario:
         self.playlists.append(nova)
         return nova
     
-    # EXTRA
+    """
+    Extra!!
+    Essa é a inovação do nosso código, ela gera um relatório pessoal de cada usuário, que só pode ser acessado pelo próprio
+    Ele retorna  o tempo das musicas que foram reproduzidas
+    retorna as músicas e os podcasts que foram reproduzidos e quantas vezes foram reproduzidas
+    A quantidade de playulists tocadas
+    """
     def gerar_relatorio_pessoal(self):
         print(f"\n=== Relatório Pessoal de {self.nome} ===")
 
@@ -59,3 +65,4 @@ class Usuario:
 
     def __repr__(self):
         return f"Usuario(nome={self.nome})"
+
