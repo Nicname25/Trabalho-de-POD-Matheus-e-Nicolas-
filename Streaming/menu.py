@@ -21,11 +21,17 @@ class Menu:
         self.carregar_config()
 
     # ---------- UTILITÁRIOS ----------
+    """
+    Registra qualquer erro que ocorra durante a execução do sistema (como falhas ao ler arquivos, erros de 
+    formatação no .md, etc.) em um arquivo de texto localizado em logs/erros.log.
+    """
     def log_erro(self, mensagem: str):
         caminho = Path.cwd() / "logs" / "erros.log"
         with open(caminho, "a", encoding="utf-8") as arq:
             arq.write(mensagem + "\n")
-
+    """
+    Procura automaticamente os arquivos .md da pasta config, independentemente de onde o código for executado.
+    """
     def _find_config_md(self) -> list[Path]:
         possiveis = [
             Path.cwd() / "config",
@@ -39,6 +45,12 @@ class Menu:
         return arquivos
 
     # ---------- CARREGAMENTO ----------
+    """
+        Procura os arquivos .md (usando _find_config_md() que vimos antes), lê o conteúdo de cada arquivo Markdown, 
+        divide o texto em seções (Usuários, Músicas, Podcasts, Playlists), processa cada seção e cria os objetos 
+        correspondentes.
+        """
+    
     def carregar_config(self):
         arquivos = self._find_config_md()
         if not arquivos:
@@ -75,7 +87,7 @@ class Menu:
                     for b in blocos: 
                         self._process_playlist(b, arq)
 
-        # agora preenche as playlists pendentes (itens)
+    
         self._preencher_playlists()
 
         print("\nConfiguração carregada com sucesso!")
@@ -85,6 +97,12 @@ class Menu:
         print(f"Playlists carregadas: {[p.nome for p in self.playlists]}")
 
     # ---------- PARSER ----------
+    """
+    O método _extrair_blocos() lê cada seção dos arquivos .md e converte suas linhas em dicionários.
+    Ele identifica novos itens pelo prefixo -, separa chaves e valores usando :, e converte listas ([a, b, c]) em listas reais.
+    No fim, retorna uma lista de blocos estruturados que representam músicas, podcasts, usuários ou playlists.
+    """
+    
     def _extrair_blocos(self, linhas):
         blocos = []
         bloco = {}
@@ -107,6 +125,11 @@ class Menu:
         return blocos
 
     # ---------- PROCESSADORES ----------
+    """
+    Esses métodos criam objetos a partir dos blocos extraídos dos arquivos .md.
+    Cada _process_ valida e instancia Usuários, Músicas, Podcasts e Playlists, adicionando-os às listas internas do sistema.
+    Por fim, _preencher_playlists() vincula as mídias reais (músicas e podcasts) às playlists de seus respectivos usuários.
+    """
     def _process_usuario(self, dados, arq):
         nome = str(dados.get("nome") or "").strip()
         #print(nome)
