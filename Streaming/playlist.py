@@ -15,11 +15,13 @@ class Playlist:
         if midia in self.itens:
             self.itens.remove(midia)
 
-    def reproduzir(self):
-        print(f"Reproduzindo playlist: {self.nome}")
-        self.reproducoes += 1
+    def reproduzir(self, usuario_que_ouve=None):
+        """Reproduz todas as mídias na playlist e registra no histórico do usuário"""
         for midia in self.itens:
             midia.reproduzir()
+            if usuario_que_ouve:
+                usuario_que_ouve.historico.append(midia)
+        self.reproducoes += 1
 
     def __add__(self, outra):
         """Concatenar duas playlists em uma nova playlist com nome da primeira"""

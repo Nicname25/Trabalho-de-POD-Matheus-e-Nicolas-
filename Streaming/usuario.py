@@ -2,13 +2,13 @@ from Streaming.arquivo_de_midia import ArquivoDeMidia
 from Streaming.playlist import Playlist
 
 class Usuario:
-    qntd_instancias = 0  # contador global de usuários
-
+    qntd_instancias = 0 
     def __init__(self, nome: str):
         self.nome = nome
         self.playlists: list[Playlist] = []
         self.historico: list[ArquivoDeMidia] = []
         Usuario.qntd_instancias += 1
+        self.playlists_ouvidas: list[str] = []
 
     def ouvir_midia(self, midia: ArquivoDeMidia):
         """Reproduz a mídia e adiciona ao histórico"""
@@ -37,16 +37,22 @@ class Usuario:
         if not self.historico:
             print("Nenhuma mídia foi reproduzida ainda.")
             return
-
-        # Contagem de cada mídia
         contagem = {}
         tempo_total = 0
+        total_musicas = 0
+        total_podcasts = 0
 
         for midia in self.historico:
             contagem[midia.titulo] = contagem.get(midia.titulo, 0) + 1
             tempo_total += midia.duracao
 
-        # Exibe histórico detalhado
+            from Streaming.musica import Musica
+            from Streaming.podcast import Podcast
+            if isinstance(midia, Musica):
+                total_musicas += 1
+            elif isinstance(midia, Podcast):
+                total_podcasts += 1
+
         print("\nHistórico de reprodução:")
         for titulo, qtd in contagem.items():
             print(f" - {titulo} → {qtd} reprodução(ões)")
@@ -54,11 +60,12 @@ class Usuario:
         minutos = tempo_total // 60
         segundos = tempo_total % 60
 
-        # Conta quantas vieram de playlists
-        total_de_playlists = sum(1 for p in self.playlists if p.reproducoes > 0)
+        total_playlists = sum(1 for p in self.playlists if p.reproducoes > 0)
+
         print(f"\nTempo total de áudio reproduzido: {minutos}m {segundos}s")
         print(f"Total de mídias ouvidas: {len(self.historico)}")
-        print(f"Playlists ouvidas: {total_de_playlists}")
+        print(f" ├─ Músicas: {total_musicas}")
+        print(f" ├─ Podcasts: {total_podcasts}")
 
     def __str__(self):
         return f"Usuário: {self.nome} | Playlists: {len(self.playlists)} | Histórico: {len(self.historico)} músicas"

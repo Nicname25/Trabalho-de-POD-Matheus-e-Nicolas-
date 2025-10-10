@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
 
 class ArquivoDeMidia(ABC):
-"""
-Essa classe serve para ser usada pela música e pelo podcast para criar uma música ou podcast.
-Incluindo titulo, duração, artista a as reproduções.
-"""
+    """
+    Essa classe serve para ser usada pela música e pelo podcast para criar uma música ou podcast.
+    Incluindo titulo, duração, artista a as reproduções.
+    """
+
     def __init__(self, titulo: str, duracao: int, artista: str, reproducoes: int = 0):
         self.titulo = titulo
         self.duracao = duracao

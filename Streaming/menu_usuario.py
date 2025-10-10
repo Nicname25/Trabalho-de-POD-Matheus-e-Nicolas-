@@ -47,7 +47,6 @@ class MenuUsuario:
                 Analises.gerar_relatorio(self.musicas, self.playlists, self.usuarios)
             elif opcao == "9":
                 self.usuario.gerar_relatorio_pessoal()
-
             elif opcao == "10":
                 break
             else:
@@ -73,6 +72,27 @@ class MenuUsuario:
         for p in self.podcasts:
             print("-", p)
 
+    def reproduzir_podcast(self):
+        if not self.podcasts:
+            print("Nenhum podcast disponível.")
+            return
+
+        print("\n=== Lista de Podcasts ===")
+        for i, p in enumerate(self.podcasts, start=1):
+            print(f"{i}. {p.titulo} - {p.artista}")
+
+        try:
+            escolha = int(input("Escolha o número do podcast: ")) - 1
+            if 0 <= escolha < len(self.podcasts):
+                podcast = self.podcasts[escolha]
+                print(f"\nReproduzindo podcast: {podcast.titulo} - {podcast.artista}")
+                podcast.reproduzir()
+                self.usuario.historico.append(podcast)
+            else:
+                print("Podcast inválido.")
+        except ValueError:
+            print("Entrada inválida.")
+
     def listar_playlists(self):
         print("\n=== Playlists ===")
         for pl in self.playlists:
@@ -83,7 +103,8 @@ class MenuUsuario:
         nome = input("Digite o nome da playlist: ")
         for pl in self.playlists:
             if pl.nome == nome:
-                pl.reproduzir()
+                pl.reproduzir(usuario_que_ouve=self.usuario)
+                print(f"\nPlaylist '{pl.nome}' reproduzida por {self.usuario.nome}!")
                 return
         print("Playlist não encontrada!")
 
